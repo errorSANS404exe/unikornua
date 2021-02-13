@@ -27,13 +27,23 @@ def drawing():
 
 
 def risui_karik():
-    draw.rect(window, [255, 0, 0], r)
+    draw.rect(window, [255, 0, 0], karik)
 
 
 def dvigai_karik():
-    global r,karik_speedy
-    r.bottom += karik_speedy
-    karik_speedy+=(10/60)*0.16
+    global karik, karik_speedy, karik_speedx
+    karik.bottom += karik_speedy
+    karik_speedy += (10 / 60) * 0.16  # ускоряем шарик вниз
+    if karik.bottom >= 500:
+        karik_speedy = -karik_speedy * 0.8
+        karik.bottom = 500
+    karik.right += karik_speedx  # двигаем шарик вправо и влево
+    if karik.right >= 500:
+        karik.right = 500
+        karik_speedx = -karik_speedx
+    if karik.left <= 0:
+        karik.left = 0
+        karik_speedx = -karik_speedx
 
 
 pygame.init()
@@ -41,8 +51,9 @@ window = display.set_mode([500, 500])
 pushkax = 200
 rect = pygame.Rect(0, 400, 100, 100)
 rect.centerx = 250
-r = pygame.Rect(30, 40, 30, 30)
-karik_speedy=0
+karik = pygame.Rect(30, 40, 30, 30)
+karik_speedy = 0
+karik_speedx = 1
 
 # AXMED.EXE starting
 
@@ -55,4 +66,4 @@ while 1 == 1:
     event_processing()
     dvigai_karik()
     drawing()
-    time.sleep(1 / 60)
+    time.sleep(1 / 100)
